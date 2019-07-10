@@ -4,6 +4,8 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
+bool debug = true; // runtime debug flag
+
 using namespace std;
 using namespace cv;
 
@@ -20,16 +22,13 @@ int main()
 		cam >> frame;
 		if (frame.empty())
 			break;
+		/*
+		сюда кодик пишем :)
 
 
-
-
-
-
-
-
-
-		imshow("hi", frame);
+		*/
+		if (debug)
+			imshow("hi", frame);
 	}
 	return 0;
 }
