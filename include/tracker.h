@@ -5,10 +5,5 @@
 class TrackerTemplate
 {
 public:
-	virtual Data Track(Data dataFromDetector) = 0;
-};
-
-class Tracker : public TrackerTemplate
-{
-
+	virtual EstimationBase Track(DetectedObject dataFromDetector) = 0;
 };

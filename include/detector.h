@@ -5,10 +5,5 @@
 class DetectorTemplate
 {
 public:
-	virtual Data Detect(cv::Mat image) = 0;
-};
-
-class Detector : public DetectorTemplate
-{
-	
+	virtual DetectedObject Detect(cv::Mat image) = 0;
 };

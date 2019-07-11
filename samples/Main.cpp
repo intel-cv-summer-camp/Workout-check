@@ -15,14 +15,15 @@ int main()
 	cv::Mat frame;
 	cv::VideoCapture cam(sourceId);
 
-	Data dataFromDetector;
-	Data dataFromTracker;
-	Data dataFromComparator;
+	DetectedObject dataFromDetector;
+	EstimationBase dataFromTracker;
+	Estimated dataFromComparator;
 
-	Detector detector;
-	Tracker tracker;
-	Comparator comparator;
+	DetectorTemplate* detector;
+	TrackerTemplate* tracker;
+	ComparatorTemplate* comparator;
 
+	/*
 	while (waitKey(1) < 0)
 	{
 		cam >> frame;
@@ -44,6 +45,6 @@ int main()
 
 		if (debug)
 			imshow("WorkoutCheck", frame);
-	}
+	}*/
 	return 0;
 }
