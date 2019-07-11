@@ -8,4 +8,4 @@
 #include <string>
 #include "estimationbase.h"
 #include "estimated.h"
-#include <ctime>
+#include <time.h>

@@ -5,17 +5,17 @@
 class Timer
 {
 public:
-	uint32_t SetTimer()
+	void SetTimer()
 	{
 		this->start_time = clock();
 	}
-	uint32_t GetTime()
+	double GetTime()
 	{
-		uint32_t end_time = clock();
-		uint32_t result = start_time - end_time;
-		start_time = end_time;
+		clock_t end_time = clock();
+		double result = (double)(end_time-start_time)/CLOCKS_PER_SEC;
+		start_time = clock();
 		return result;
 	}
 private:
-	unsigned int start_time;
+	clock_t start_time;
 };
