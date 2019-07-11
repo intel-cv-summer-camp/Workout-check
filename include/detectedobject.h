@@ -8,9 +8,4 @@ struct DetectedObject
 	int Right;
 	int Top;
 	int Bottom;
-
-	bool isGood()
-	{
-		return bool();
-	}
 };
