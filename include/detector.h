@@ -28,7 +28,10 @@ class Detector :public DetectorTemplate
 	const cv::Scalar meanVal = { 104.0, 177.0, 123.0 };
 	string caffeConfigFile;
 	string caffeWeightFile;
+	Point2f ideal_center;
 public:
 	Detector(string caffeConfigFile_, string caffeWeightFile_);
 	vector<DetectedObject> detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN);
+	Mat detectFaceLocation(Mat &frameOpenCVDNN);
+	Mat detectFaceLocation1(Mat &frameOpenCVDNN);
 };

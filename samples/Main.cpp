@@ -11,6 +11,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/dnn.hpp>
+#include "opencv2/objdetect/objdetect.hpp"
 
 using namespace cv;
 using namespace std;
@@ -25,6 +26,7 @@ const std::string caffeWeightFile = "C:/Users/Валентин/Desktop/Workout-check/ran
 
 int main(int argc, const char** argv)
 {
+	
 #ifdef CAFFE
 	Net net = cv::dnn::readNetFromCaffe(caffeConfigFile, caffeWeightFile);
 #else
@@ -32,6 +34,8 @@ int main(int argc, const char** argv)
 #endif
 
 	Detector det = Detector(caffeConfigFile, caffeWeightFile);
+
+	double t = cv::getTickCount();
 
 	VideoCapture source;
 	if (argc == 1)
@@ -42,6 +46,8 @@ int main(int argc, const char** argv)
 
 	double tt_opencvDNN = 0;
 	double fpsOpencvDNN = 0;
+	CascadeClassifier face_cascade;
+	face_cascade.load("C:\\My foulder\\Resourses\\opencv\\opencv\\sources\\data\\haarcascades\\haarcascade_eye.xml");
 	while (1)
 	{
 		source >> frame;
@@ -51,11 +57,15 @@ int main(int argc, const char** argv)
 		vector<DetectedObject> vect = det.detectFaceOpenCVDNN(net, frame);
 		for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
 		{
-			rectangle(frame, Point((int)((*i).Left), (int)((*i).Right)), Point((int)((*i).Top), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
+			Point center(((int)((*i).Left)+ (int)((*i).Top))/2.0,((int)((*i).Right)+ (int)((*i).Bottom))/2.0);
+			rectangle(frame, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
 		}
-		//tt_opencvDNN = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
-		//fpsOpencvDNN = 1 / tt_opencvDNN;
-		//putText(frame, format("OpenCV DNN ; FPS = %.2f", fpsOpencvDNN), Point(10, 50), FONT_HERSHEY_SIMPLEX, 1.4, Scalar(0, 0, 255), 4);
+			vector<Rect> faces;
+			face_cascade.detectMultiScale(frame, faces, 1.5, 3, 0 | CASCADE_SCALE_IMAGE, Size(15, 15));
+			for (vector<Rect>::iterator i = faces.begin(); i != faces.end(); ++i)
+			{
+				rectangle(frame, Point2i((int)((*i).x), (int)((*i).y)), Point2i((int)((*i).x + (*i).width*0.75), (int)((*i).y + (*i).height)), cv::Scalar(0, 255, 0), 2);
+			}
 		imshow("OpenCV - DNN Face Detection", frame);
 		int k = waitKey(5);
 		if (k == 27)
