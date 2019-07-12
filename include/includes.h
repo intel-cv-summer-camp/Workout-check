@@ -9,3 +9,4 @@
 #include "estimationbase.h"
 #include "estimated.h"
 #include <time.h>
+#include <SFML/Graphics.hpp>

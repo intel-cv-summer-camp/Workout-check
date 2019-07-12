@@ -8,6 +8,6 @@ add_library(${target} STATIC ${srcs} ${hdrs} ${incl})
 if (UNIX)
   target_link_libraries(${target} ${CMAKE_THREAD_LIBS_INIT})
 endif (UNIX)
-target_link_libraries(${target} ${LIBRARY_DEPS})
+target_link_libraries(${target} ${LIBRARY_DEPS} sfml-graphics sfml-window sfml-system)
 
 set(LIBRARY_DEPS "${LIBRARY_DEPS};${target}" PARENT_SCOPE)

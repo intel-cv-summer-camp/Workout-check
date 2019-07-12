@@ -29,6 +29,9 @@ set(LIBRARY_DEPS ${OpenCV_LIBS})
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include" ${OpenCV_INCLUDE_DIRS})
 
+# Find SFML installation folder
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
 # Add projects in solution
 add_subdirectory(src)
 
