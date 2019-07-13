@@ -14,10 +14,10 @@ comparison::comparison()
 	else cout << "Unable to open file";*/
 }
 
-int comparison:: Compare(int left, int top, int right, int bot)
+int comparison:: Compare(int left, int top, int right, int bot, Point a)
 {
-	int nowrong = 0;
-	stringstream str;
+	int nowrong;
+	/*stringstream str;
 	string s;
 	str << left << "\t" << right << "\t" << top << "\t" << bot << endl;
 	str >> s;
@@ -35,6 +35,6 @@ int comparison:: Compare(int left, int top, int right, int bot)
 		}
 		myfile.close();
 	}
-	else cout << "Unable to open file";
-	return nowrong;
+	else cout << "Unable to open file";*/
+	return 0;
 }

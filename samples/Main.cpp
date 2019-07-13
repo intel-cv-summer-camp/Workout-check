@@ -64,36 +64,50 @@ int main(int argc, const char** argv)
 		{
 			destroyAllWindows();
 		}
-		
 	}
-	if (o == 0)
-		cout << "Good Job! Next one!" << endl;
-	VideoCapture cap("C:/Users/Валентин/Desktop/Workout-check/execises/test_2.mp4");
-	Mat frame1;
-	int correct = 0;
-	while (1)
+	if (o != 0)
 	{
-		cap >> frame1;
-		if (frame1.empty())
-			break;
-		double t = cv::getTickCount();
-		vector<DetectedObject> vect = det.detectFaceOpenCVDNN(net, frame1);
-		for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
+		cout << "Try again!" << endl;
+	}
+	else
+	{
+		cout << "Good Job! Next one!" << endl;
+		VideoCapture cap("C:\\My foulder\\test.mp4");
+		Mat frame1;
+		int correct = 0; int left_prev = 0; int right_prev = 0; int top_prev = 0; int bottom_prev = 0;
+		while (1)
 		{
-			rectangle(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
-			line(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(255, 0, 0), 2);
-			cout << (int)((*i).Left) << "\t" << (int)((*i).Right) << "\t" << (int)((*i).Top) << "\t" << (int)((*i).Bottom) << endl;
-			comparison ex = comparison();
-			int right = ex.Compare((int)((*i).Left), (int)((*i).Top), (int)((*i).Right), (int)((*i).Bottom));
-			if (right > 0)
-				correct += right;
+			cap >> frame1;
+			if (frame1.empty())
+				break;
+			double t = cv::getTickCount();
+			vector<DetectedObject> vect = det.detectFaceOpenCVDNN(net, frame1);
+			for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
+			{
+				rectangle(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
+				line(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(255, 0, 0), 2);
+				/*cout << (int)((*i).Left) << "\t" << (int)((*i).Right) << "\t" << (int)((*i).Top) << "\t" << (int)((*i).Bottom) << endl;
+				comparison ex = comparison();*/
+				//Point center(((int)((*i).Left) + (int)((*i).Top)) / 2.0, ((int)((*i).Right) + (int)((*i).Bottom)) / 2.0);
+				//int right = ex.Compare((int)((*i).Left), (int)((*i).Top), (int)((*i).Right), (int)((*i).Bottom),center);
+
+				if (abs(left_prev - (int)((*i).Left)) < 10 && abs(right_prev - (int)((*i).Right)) < 10 || abs(top_prev - (int)((*i).Top)) > 0 && abs(bottom_prev - (int)((*i).Bottom)) > 0)
+					correct++;
+				else correct = 0;
+				left_prev = (int)((*i).Left); right_prev = (int)((*i).Right); top_prev = (int)((*i).Top); bottom_prev = (int)((*i).Bottom);
+			}
+			imshow("OpenCV - DNN Face Detection", frame1);
+			int k = waitKey(5);
+			if (k == 27)
+			{
+				destroyAllWindows();
+			}
 		}
-		cout << "correct = " << correct;
-		imshow("OpenCV - DNN Face Detection", frame1);
-		int k = waitKey(5);
-		if (k == 27)
-		{
-			destroyAllWindows();
+		if (correct > 0)
+			cout << "Good Job! Next one!" << endl;
+		else 
+		{ 
+			cout << "Try again!" << endl; 
 		}
 	}
 }
