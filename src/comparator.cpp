@@ -11,17 +11,33 @@ int Comparator_ex1::Compare(int left[], int top[], int right[], int bot[])
 	double error = 0.1;
 	for (int i = 0; i < 115; i++)
 	{
-		double width_etalon = (right_etalon[i] - left_etalon[i])/scale_etalon;
-		double width = (right[i] - left[i])/scale;
-		if ((width_etalon / width < 1 + error) && (width_etalon / width < 1 - error))
+		double width_etalon = (double)(right_etalon[i] - left_etalon[i])/scale_etalon;
+		double width = (double)(right[i] - left[i])/scale;
+		if ((width_etalon / width > 1.0 + error) || (width_etalon / width < 1.0 - error))
 			errorcount++;
 	}
 	return errorcount;
 }
+int Comparator_ex2::Compare(int left[], int top[], int right[], int bot[])
+{
+	int errorcount = 0;
+	int scale_etalon = bot_etalon[0] - top_etalon[0];
+	int scale = bot[0] - top[0];
+	double error = 0.1;
+	for (int i = 0; i < 389; i++)
+	{
+		double height_etalon = (double)(bot_etalon[i] - top_etalon[i]) / scale_etalon;
+		double height = (double)(bot[i] - top[i]) / scale;
+		if ((height_etalon / height < 1 + error) || (height_etalon / height > 1 - error))
+			errorcount++;
+	}
+	return errorcount;
+}
+
 Comparator_ex1::Comparator_ex1()
 {
 	string line;
-	ifstream myfile("D:/Shit/intel_summer/Workout-check/Workout-check/execises/ex_1_left-right.txt");
+	ifstream myfile("./../../Workout-check/execises/ex_1_left-right.txt");
 	if (myfile.is_open())
 	{
 		int i = 0;
@@ -39,3 +55,26 @@ Comparator_ex1::Comparator_ex1()
 	}
 	else cout << "Unable to open file";
 }
+
+Comparator_ex2::Comparator_ex2()
+{
+	string line;
+	ifstream myfile("./../../Workout-check/execises/ex_2_up-down.txt");
+	if (myfile.is_open())
+	{
+		int i = 0;
+		while (getline(myfile, line))
+		{
+			//cout << line << '\n';
+			left_etalon[i] = stoi(line.substr(0, 3));
+			//cout << stoi(line.substr(0,3)) << "\n";
+			top_etalon[i] = stoi(line.substr(4, 3));
+			right_etalon[i] = stoi(line.substr(8, 3));
+			bot_etalon[i] = stoi(line.substr(12, 3));
+			i++;
+		}
+		myfile.close();
+	}
+	else cout << "Unable to open file";
+}
+

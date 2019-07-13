@@ -34,29 +34,30 @@ int main(int argc, const char** argv)
 #endif
 
 	Detector det = Detector(caffeConfigFile, caffeWeightFile);
-	Comparator_ex1 comp = Comparator_ex1();
+	Comparator_ex1 comp1 = Comparator_ex1();
+	Comparator_ex2 comp2 = Comparator_ex2();
 
-	// Для теста сравниваю эталон с самим собой, число ошибок errors д.б. ноль
+	////Для теста сравниваю эталон с самим собой, число ошибок errors0 д.б. ноль
 	//string line;
-	//int left[115], top[115], right[115], bot[115];
-	//ifstream myfile("D:/Shit/intel_summer/Workout-check/Workout-check/execises/ex_1_left-right.txt");
+	//int left0[115], top0[115], right0[115], bot0[115];
+	//ifstream myfile("./../../Workout-check/execises/ex_1_left-right.txt");
 	//if (myfile.is_open())
 	//{
 	//	int i = 0;
 	//	while (getline(myfile, line))
 	//	{
 	//		//cout << line << '\n';
-	//		left[i] = stoi(line.substr(0, 3));
+	//		left0[i] = stoi(line.substr(0, 3));
 	//		//cout << stoi(line.substr(0,3)) << "\n";
-	//		top[i] = stoi(line.substr(4, 3));
-	//		right[i] = stoi(line.substr(8, 3));
-	//		bot[i] = stoi(line.substr(12, 3));
+	//		top0[i] = stoi(line.substr(4, 3));
+	//		right0[i] = stoi(line.substr(8, 3));
+	//		bot0[i] = stoi(line.substr(12, 3));
 	//		i++;
 	//	}
 	//	myfile.close();
 	//}
-	//int errors = comp.Compare(left, top, right, bot);
-	//cout << "estimated errors = " << errors;
+	//int errors0 = comp1.Compare(left0, top0, right0, bot0);
+	//cout << "\n" << "estimated errors0 = " << errors0 << "\n";
 
 	double t = cv::getTickCount();
 
@@ -96,6 +97,9 @@ int main(int argc, const char** argv)
 	int* top = &top_vec[0];
 	int* right = &right_vec[0];
 	int* bot = &bot_vec[0];
-	int errors = comp.Compare(left, top, right, bot);
-	cout << "estimated errors = " << errors;
+	int errors1 = comp1.Compare(left, top, right, bot);
+	cout << "estimated errors ex1 = " << errors1;
+	int errors2 = comp2.Compare(left, top, right, bot);
+	cout << "estimated errors ex2 = " << errors2;
+
 }
