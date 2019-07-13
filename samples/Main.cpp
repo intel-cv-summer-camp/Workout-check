@@ -13,6 +13,7 @@
 #include <opencv2/dnn.hpp>
 #include "opencv2/objdetect/objdetect.hpp"
 
+
 using namespace cv;
 using namespace std;
 using namespace cv::dnn;
@@ -42,11 +43,6 @@ int main(int argc, const char** argv)
 	else
 		source.open(argv[1]);*/
 	Mat frame;
-
-	double tt_opencvDNN = 0;
-	double fpsOpencvDNN = 0;
-	CascadeClassifier face_cascade;
-	face_cascade.load("D:/opencv/opencv/sources/data/haarcascades/haarcascade_eye.xml");
 	while (1)
 	{
 		source >> frame;
@@ -58,13 +54,8 @@ int main(int argc, const char** argv)
 		{
 			Point center(((int)((*i).Left)+ (int)((*i).Top))/2.0,((int)((*i).Right)+ (int)((*i).Bottom))/2.0);
 			rectangle(frame, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
+
 		}
-			vector<Rect> faces;
-			face_cascade.detectMultiScale(frame, faces, 1.5, 3, 0 | CASCADE_SCALE_IMAGE, Size(15, 15));
-			for (vector<Rect>::iterator i = faces.begin(); i != faces.end(); ++i)
-			{
-				rectangle(frame, Point2i((int)((*i).x), (int)((*i).y)), Point2i((int)((*i).x + (*i).width*0.75), (int)((*i).y + (*i).height)), cv::Scalar(0, 255, 0), 2);
-			}
 		imshow("OpenCV - DNN Face Detection", frame);
 		int k = waitKey(5);
 		if (k == 27)
