@@ -33,17 +33,40 @@ int main(int argc, const char** argv)
 	Net net = cv::dnn::readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
 #endif
 
-	//Detector det = Detector(caffeConfigFile, caffeWeightFile);
+	Detector det = Detector(caffeConfigFile, caffeWeightFile);
 	Comparator_ex1 comp = Comparator_ex1();
 
-	//double t = cv::getTickCount();
+	// Для теста сравниваю эталон с самим собой, число ошибок errors д.б. ноль
+	//string line;
+	//int left[115], top[115], right[115], bot[115];
+	//ifstream myfile("D:/Shit/intel_summer/Workout-check/Workout-check/execises/ex_1_left-right.txt");
+	//if (myfile.is_open())
+	//{
+	//	int i = 0;
+	//	while (getline(myfile, line))
+	//	{
+	//		//cout << line << '\n';
+	//		left[i] = stoi(line.substr(0, 3));
+	//		//cout << stoi(line.substr(0,3)) << "\n";
+	//		top[i] = stoi(line.substr(4, 3));
+	//		right[i] = stoi(line.substr(8, 3));
+	//		bot[i] = stoi(line.substr(12, 3));
+	//		i++;
+	//	}
+	//	myfile.close();
+	//}
+	//int errors = comp.Compare(left, top, right, bot);
+	//cout << "estimated errors = " << errors;
 
-	//VideoCapture source("./../../../Workout-check/videos/123.mp4");
+	double t = cv::getTickCount();
+
+	VideoCapture source("./../../../Workout-check/videos/123.mp4");
 	/*if (argc == 1)
 		source.open(0);
 	else
 		source.open(argv[1]);*/
-	/*Mat frame;
+	Mat frame;
+	vector <int> left_vec, top_vec, right_vec, bot_vec;
 	while (1)
 	{
 		source >> frame;
@@ -55,6 +78,10 @@ int main(int argc, const char** argv)
 		{
 			Point center(((int)((*i).Left)+ (int)((*i).Top))/2.0,((int)((*i).Right)+ (int)((*i).Bottom))/2.0);
 			rectangle(frame, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
+			left_vec.push_back((int)((*i).Left));
+			top_vec.push_back((int)((*i).Top));
+			right_vec.push_back((int)((*i).Right));
+			bot_vec.push_back((int)((*i).Bottom));
 
 		}
 		imshow("OpenCV - DNN Face Detection", frame);
@@ -64,5 +91,11 @@ int main(int argc, const char** argv)
 			destroyAllWindows();
 			break;
 		}
-	}*/
+	}
+	int* left = &left_vec[0];
+	int* top = &top_vec[0];
+	int* right = &right_vec[0];
+	int* bot = &bot_vec[0];
+	int errors = comp.Compare(left, top, right, bot);
+	cout << "estimated errors = " << errors;
 }

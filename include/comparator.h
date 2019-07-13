@@ -13,10 +13,12 @@
 class ComparatorTemplate
 {
 public:
-	virtual int Compare(int* left[], int* top[], int* right[], int* bot[]) = 0;
+	virtual int Compare(int left[], int top[], int right[], int bot[]) = 0;
 };
 class Comparator_ex1 :public ComparatorTemplate
 {
+private:
+	int left_etalon[115], top_etalon[115], right_etalon[115], bot_etalon[115];
 public:
 	// Пустой конструктор, чтобы был.
 	Comparator_ex1();
@@ -24,5 +26,5 @@ public:
 	// НЕ сравниваю отдельные кадры в режиме онлайн.
 	// Сначала запись видео, потом сравнение полных данных.
 	// left - список int координат x левого края прямоугольников и т.д.
-	int Compare(int* left[], int* top[], int* right[], int* bot[]);
+	int Compare(int left[], int top[], int right[], int bot[]);
 };
