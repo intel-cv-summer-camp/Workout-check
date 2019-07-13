@@ -12,7 +12,7 @@ using namespace cv;
 
 int main()
 {
-	GUI gui(500,600);
+	GUI gui; //если величина окна не нравится- передай в параметрах свою
 	gui.Run();
 
 	return 0;
