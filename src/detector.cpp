@@ -41,22 +41,11 @@ vector<DetectedObject> Detector :: detectFaceOpenCVDNN(Net net, Mat &frameOpenCV
 		{
 			DetectedObject obj;
 			obj.Left = static_cast<int>(detectionMat.at<float>(i, 3) * frameWidth);
-			obj.Right = static_cast<int>(detectionMat.at<float>(i, 4) * frameHeight);
-			obj.Top = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
+			obj.Top = static_cast<int>(detectionMat.at<float>(i, 4) * frameHeight);
+			obj.Right = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
 			obj.Bottom = static_cast<int>(detectionMat.at<float>(i, 6) * frameHeight);
 			result_.push_back(obj);
 		}
-		/*float confidence = detectionMat.at<float>(i, 2);
-
-		if (confidence > confidenceThreshold)
-		{
-			int x1 = static_cast<int>(detectionMat.at<float>(i, 3) * frameWidth);
-			int y1 = static_cast<int>(detectionMat.at<float>(i, 4) * frameHeight);
-			int x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
-			int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frameHeight);
-
-			cv::rectangle(frameOpenCVDNN, cv::Point(x1, y1), cv::Point(x2, y2), cv::Scalar(0, 255, 0), 2, 4);
-		}*/
 	}
 	return result_;
 }
