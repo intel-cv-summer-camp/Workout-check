@@ -1,4 +1,4 @@
-#include "preparator.h"
+ï»¿#include "preparator.h"
 #include "detector.h"
 #include "tracker.h"
 #include "comparator.h"
@@ -22,8 +22,8 @@ using namespace cv::dnn;
 
 #define CAFFE
 
-const std::string caffeConfigFile = "C:/Users/Âàëåíòèí/Desktop/Workout-check/random_nnet/deploy.prototxt.txt";
-const std::string caffeWeightFile = "C:/Users/Âàëåíòèí/Desktop/Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
+const std::string caffeConfigFile = "C:/Users/Ð’Ð°Ð»ÐµÐ½Ñ‚Ð¸Ð½/Desktop/Workout-check/random_nnet/deploy.prototxt.txt";
+const std::string caffeWeightFile = "C:/Users/Ð’Ð°Ð»ÐµÐ½Ñ‚Ð¸Ð½/Desktop/Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
 
 int main(int argc, const char** argv)
 {
@@ -33,13 +33,15 @@ int main(int argc, const char** argv)
 	Net net = cv::dnn::readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
 #endif
 	Detector det = Detector(caffeConfigFile, caffeWeightFile);
-	VideoCapture source("C:/Users/Âàëåíòèí/Desktop/Workout-check/execises/test_3.mp4");
+	VideoCapture source("C:/Users/Ð’Ð°Ð»ÐµÐ½Ñ‚Ð¸Ð½/Desktop/Workout-check/execises/test_3.mp4");
 	Mat frame;
 	double tt_opencvDNN = 0;
 	double fpsOpencvDNN = 0;
 	int o = 0;
 	int prev = 0;
-	int min=0;
+	int min = 0;
+	int min1 = 0;
+	int beg = 0;
 	while (1)
 	{
 		source >> frame;
@@ -57,6 +59,16 @@ int main(int argc, const char** argv)
 			else if (line < prev)
 				o--;
 			prev = line;
+			if (beg == 0)
+			{
+				if (min > o && o < 0)
+					min = o;
+				if( abs(min - o) > 3 && o < 0)
+				  beg += line;
+			}
+			else
+				if (min1 > o && o < 0)
+					min1 = o;
 		}
 		imshow("OpenCV - DNN Face Detection", frame);
 		int k = waitKey(5);
@@ -65,7 +77,7 @@ int main(int argc, const char** argv)
 			destroyAllWindows();
 		}
 	}
-	if (o != 0)
+	if (abs(min-min1)>2)
 	{
 		cout << "Try again!" << endl;
 	}
@@ -105,9 +117,9 @@ int main(int argc, const char** argv)
 		}
 		if (correct > 0)
 			cout << "Good Job! Next one!" << endl;
-		else 
-		{ 
-			cout << "Try again!" << endl; 
+		else
+		{
+			cout << "Try again!" << endl;
 		}
 	}
 }
