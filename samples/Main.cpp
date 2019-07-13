@@ -18,17 +18,16 @@ using namespace std;
 using namespace cv::dnn;
 
 
-
 #define CAFFE
 
-const std::string caffeConfigFile = "C:/Users/Валентин/Desktop/Workout-check/random_nnet/deploy.prototxt.txt";
-const std::string caffeWeightFile = "C:/Users/Валентин/Desktop/Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
+const std::string caffeConfigFile = "./../../Workout-check/random_nnet/deploy.prototxt.txt";
+const std::string caffeWeightFile = "./../../Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
 
 int main(int argc, const char** argv)
 {
 	
 #ifdef CAFFE
-	Net net = cv::dnn::readNetFromCaffe(caffeConfigFile, caffeWeightFile);
+	Net net = cv::dnn::readNet(caffeConfigFile, caffeWeightFile);
 #else
 	Net net = cv::dnn::readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
 #endif
@@ -37,17 +36,17 @@ int main(int argc, const char** argv)
 
 	double t = cv::getTickCount();
 
-	VideoCapture source;
-	if (argc == 1)
+	VideoCapture source("./../../../Workout-check/videos/123.mp4");
+	/*if (argc == 1)
 		source.open(0);
 	else
-		source.open(argv[1]);
+		source.open(argv[1]);*/
 	Mat frame;
 
 	double tt_opencvDNN = 0;
 	double fpsOpencvDNN = 0;
 	CascadeClassifier face_cascade;
-	face_cascade.load("C:\\My foulder\\Resourses\\opencv\\opencv\\sources\\data\\haarcascades\\haarcascade_eye.xml");
+	face_cascade.load("D:/opencv/opencv/sources/data/haarcascades/haarcascade_eye.xml");
 	while (1)
 	{
 		source >> frame;
