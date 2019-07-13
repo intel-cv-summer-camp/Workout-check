@@ -9,6 +9,8 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/dnn.hpp>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 class ComparatorTemplate
 {
@@ -35,5 +37,14 @@ private:
 	int left_etalon[389], top_etalon[389], right_etalon[389], bot_etalon[389]; //389 - количество строк в файлике эталона
 public:
 	Comparator_ex2();
+	int Compare(int left[], int top[], int right[], int bot[]);
+};
+
+class Comparator_ex3 :public ComparatorTemplate
+{
+private:
+	int left_etalon[119], top_etalon[119], right_etalon[119], bot_etalon[119]; //119 - количество строк в файлике эталона
+public:
+	Comparator_ex3();
 	int Compare(int left[], int top[], int right[], int bot[]);
 };
