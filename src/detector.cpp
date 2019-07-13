@@ -1,13 +1,6 @@
 #pragma once
 #include "detector.h"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <stdlib.h>
-#include <opencv2/core.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/dnn.hpp>
+
 
 using namespace cv;
 using namespace std;

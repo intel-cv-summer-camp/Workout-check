@@ -33,16 +33,17 @@ int main(int argc, const char** argv)
 	Net net = cv::dnn::readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
 #endif
 
-	Detector det = Detector(caffeConfigFile, caffeWeightFile);
+	//Detector det = Detector(caffeConfigFile, caffeWeightFile);
+	Comparator_ex1 comp = Comparator_ex1();
 
-	double t = cv::getTickCount();
+	//double t = cv::getTickCount();
 
-	VideoCapture source("./../../../Workout-check/videos/123.mp4");
+	//VideoCapture source("./../../../Workout-check/videos/123.mp4");
 	/*if (argc == 1)
 		source.open(0);
 	else
 		source.open(argv[1]);*/
-	Mat frame;
+	/*Mat frame;
 	while (1)
 	{
 		source >> frame;
@@ -63,5 +64,5 @@ int main(int argc, const char** argv)
 			destroyAllWindows();
 			break;
 		}
-	}
+	}*/
 }
