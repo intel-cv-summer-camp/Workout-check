@@ -11,40 +11,43 @@
 #include <opencv2/dnn.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "includes.h"
+#include <fstream>
 
-class ComparatorTemplate
+using namespace cv;
+using namespace std;
+
+class ComparatorTemplate1
 {
 public:
 	virtual int Compare(int left[], int top[], int right[], int bot[]) = 0;
 };
-class Comparator_ex1 :public ComparatorTemplate
+class ComparatorTemplate2
 {
-private:
-	int left_etalon[115], top_etalon[115], right_etalon[115], bot_etalon[115]; //115 - количество строк в файлике эталона
 public:
-	// Пустой конструктор, чтобы был.
-	Comparator_ex1();
-	// Для сравнения получаю списки координат задедектированных прямоугольничков.
-	// НЕ сравниваю отдельные кадры в режиме онлайн.
-	// Сначала запись видео, потом сравнение полных данных.
-	// left - список int координат x левого края прямоугольников и т.д.
-	int Compare(int left[], int top[], int right[], int bot[]);
+	virtual int Compare(vector<DetectedObject> vect) = 0;
 };
 
-class Comparator_ex2 :public ComparatorTemplate
-{
-private:
-	int left_etalon[389], top_etalon[389], right_etalon[389], bot_etalon[389]; //389 - количество строк в файлике эталона
-public:
-	Comparator_ex2();
-	int Compare(int left[], int top[], int right[], int bot[]);
-};
-
-class Comparator_ex3 :public ComparatorTemplate
+class Comparator_ex1 :public ComparatorTemplate1
 {
 private:
 	int left_etalon[119], top_etalon[119], right_etalon[119], bot_etalon[119]; //119 - количество строк в файлике эталона
 public:
-	Comparator_ex3();
+	Comparator_ex1();
 	int Compare(int left[], int top[], int right[], int bot[]);
+};
+
+class comparison_ex2 :public ComparatorTemplate2
+{
+	string line;
+public:
+	comparison_ex2();
+	int Compare(vector<DetectedObject> vect);
+};
+class comparison_ex3 :public ComparatorTemplate2
+{
+	string line;
+public:
+	comparison_ex3();
+	int Compare(vector<DetectedObject> vect);
 };
