@@ -27,7 +27,7 @@ int Comparator_ex2::Compare(int left[], int top[], int right[], int bot[])
 	{
 		double height_etalon = (double)(bot_etalon[i] - top_etalon[i]) / scale_etalon;
 		double height = (double)(bot[i] - top[i]) / scale;
-		if ((height_etalon / height < 1 + error) || (height_etalon / height > 1 - error))
+		if ((height_etalon / height > 1.0 + error) || (height_etalon / height < 1.0 - error))
 			errorcount++;
 	}
 	return errorcount;
@@ -39,12 +39,12 @@ int Comparator_ex3::Compare(int left[], int top[], int right[], int bot[])
 	double alpha0_etalon = atan((double)(bot_etalon[0] - top_etalon[0]) / (right_etalon[0] - left_etalon[0]));
 	double alpha0 = atan((double)(bot[0] - top[0]) / (right[0] - left[0]));
 	double natural_feature = alpha0_etalon - alpha0;
-	double error = M_PI/36;
+	double error = M_PI/72;
 	for (int i = 0; i < 119; i++)
 	{
 		double alpha_etalon = atan((double)(bot_etalon[i] - top_etalon[i]) / (right_etalon[i] - left_etalon[i]));
 		double alpha = atan((double)(bot[i] - top[i]) / (right[i] - left[i]));
-		if ((alpha_etalon - alpha - natural_feature < error) || (alpha_etalon - alpha - natural_feature > - error))
+		if ((alpha_etalon - alpha - natural_feature > error) || (alpha_etalon - alpha - natural_feature < - error))
 			errorcount++;
 	}
 	return errorcount;

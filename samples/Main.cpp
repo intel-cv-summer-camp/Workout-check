@@ -1,4 +1,4 @@
-#include "preparator.h"
+п»ї#include "preparator.h"
 #include "detector.h"
 #include "tracker.h"
 #include "comparator.h"
@@ -35,9 +35,10 @@ int main(int argc, const char** argv)
 
 	Detector det = Detector(caffeConfigFile, caffeWeightFile);
 	Comparator_ex1 comp1 = Comparator_ex1();
+	Comparator_ex3 comp3 = Comparator_ex3();
 	Comparator_ex2 comp2 = Comparator_ex2();
 
-	////Для теста сравниваю эталон с самим собой, число ошибок errors0 д.б. ноль
+	////
 	//string line;
 	//int left0[115], top0[115], right0[115], bot0[115];
 	//ifstream myfile("./../../Workout-check/execises/ex_1_left-right.txt");
@@ -61,7 +62,7 @@ int main(int argc, const char** argv)
 
 	double t = cv::getTickCount();
 
-	VideoCapture source("./../../../Workout-check/videos/123.mp4");
+	VideoCapture source("./../../videos/Video(4).mkv");
 	/*if (argc == 1)
 		source.open(0);
 	else
@@ -93,13 +94,22 @@ int main(int argc, const char** argv)
 			break;
 		}
 	}
+	//cout <<"\n"<< j << "\n";
 	int* left = &left_vec[0];
 	int* top = &top_vec[0];
 	int* right = &right_vec[0];
 	int* bot = &bot_vec[0];
-	int errors1 = comp1.Compare(left, top, right, bot);
-	cout << "estimated errors ex1 = " << errors1;
-	int errors2 = comp2.Compare(left, top, right, bot);
-	cout << "estimated errors ex2 = " << errors2;
+	//int errors1 = comp1.Compare(left, top, right, bot);
+	//cout << "estimated errors ex1 = " << errors1 << "/n";
+	//int errors2 = comp2.Compare(left, top, right, bot);
+	//cout << "estimated errors ex2 = " << errors2;
+
+	int errors3 = comp3.Compare(left, top, right, bot);
+	//cout << "estimated errors ex3 = " << errors3;
+	if (errors3 > 20)
+		cout << "Try again! D;";
+	else
+		cout << "Good job!";
+	waitKey();
 
 }
