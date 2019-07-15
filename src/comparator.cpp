@@ -1,40 +1,50 @@
 #include "comparator.h"
 
 comparison::comparison()
+{}
+
+int comparison::Compare_ex_3(vector<DetectedObject> vect)
 {
-	/*ifstream myfile("C:/Users/Валентин/Desktop/Workout-check/execises/ex_2_up-down.txt");
-	if (myfile.is_open())
+	int o=0;
+	int prev = 0;
+	int min = 0;
+	int min1 = 0;
+	int beg = 0;
+	for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
 	{
-		while (getline(myfile, line))
+		int line = sqrt(((int)((*i).Right) - (int)((*i).Left))*((int)((*i).Right) - (int)((*i).Left)) + ((int)((*i).Bottom) - (int)((*i).Top))*((int)((*i).Bottom) - (int)((*i).Top)));
+		if (line > prev)
+			o++;
+		else if (line < prev)
+			o--;
+		prev = line;
+		if (beg == 0)
 		{
-			cout << line << '\n';
+			if (min > o && o < 0)
+				min = o;
+			if (abs(min - o) > 3 && o < 0)
+				beg += line;
 		}
-		myfile.close();
+		else
+			if (min1 > o && o < 0)
+				min1 = o;
 	}
-	else cout << "Unable to open file";*/
+	return abs(min - min1);
 }
 
-int comparison:: Compare(int left, int top, int right, int bot, Point a)
+int comparison::Compare_ex_2(vector<DetectedObject> vect)
 {
-	int nowrong;
-	/*stringstream str;
-	string s;
-	str << left << "\t" << right << "\t" << top << "\t" << bot << endl;
-	str >> s;
-	ifstream myfile("C:/Users/Валентин/Desktop/Workout-check/execises/ex_2_up-down.txt");
-	if (myfile.is_open())
+	int correct = 0;
+	int left_prev = 0;
+	int right_prev = 0;
+	int top_prev = 0;
+	int bottom_prev = 0;
+	for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
 	{
-		int i = 0;
-		while (getline(myfile, line))
-		{
-			if (s == line)
-			{
-				nowrong++;
-			}
-			i++;
-		}
-		myfile.close();
+		if (abs(left_prev - (int)((*i).Left)) < 10 && abs(right_prev - (int)((*i).Right)) < 10 || abs(top_prev - (int)((*i).Top)) > 0 && abs(bottom_prev - (int)((*i).Bottom)) > 0)
+			correct++;
+		else correct = 0;
+		left_prev = (int)((*i).Left); right_prev = (int)((*i).Right); top_prev = (int)((*i).Top); bottom_prev = (int)((*i).Bottom);
 	}
-	else cout << "Unable to open file";*/
-	return 0;
+	return correct;
 }

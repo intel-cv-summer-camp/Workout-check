@@ -22,8 +22,8 @@ using namespace cv::dnn;
 
 #define CAFFE
 
-const std::string caffeConfigFile = "C:/Users/Валентин/Desktop/Workout-check/random_nnet/deploy.prototxt.txt";
-const std::string caffeWeightFile = "C:/Users/Валентин/Desktop/Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
+const std::string caffeConfigFile = "C:/Users/temp2019/Desktop/Workout-check/random_nnet/deploy.prototxt.txt";
+const std::string caffeWeightFile = "C:/Users/temp2019/Desktop/Workout-check/random_nnet/res10_300x300_ssd_iter_140000_fp16.caffemodel";
 
 int main(int argc, const char** argv)
 {
@@ -33,15 +33,11 @@ int main(int argc, const char** argv)
 	Net net = cv::dnn::readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
 #endif
 	Detector det = Detector(caffeConfigFile, caffeWeightFile);
-	VideoCapture source("C:/Users/Валентин/Desktop/Workout-check/execises/test_3.mp4");
+	VideoCapture source("C:/Users/temp2019/Desktop/Workout-check/execises/test_3.mp4");
 	Mat frame;
 	double tt_opencvDNN = 0;
 	double fpsOpencvDNN = 0;
-	int o = 0;
-	int prev = 0;
-	int min = 0;
-	int min1 = 0;
-	int beg = 0;
+	int dif;
 	while (1)
 	{
 		source >> frame;
@@ -49,26 +45,12 @@ int main(int argc, const char** argv)
 			break;
 		double t = cv::getTickCount();
 		vector<DetectedObject> vect = det.detectFaceOpenCVDNN(net, frame);
+		comparison ex = comparison();
+		dif = ex.Compare_ex_3(vect);
 		for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
 		{
 			rectangle(frame, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
 			line(frame, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(255, 0, 0), 2);
-			int line = sqrt((((int)((*i).Right)) - ((int)((*i).Left)))*(((int)((*i).Right)) - ((int)((*i).Left))) + (((int)((*i).Bottom)) - ((int)((*i).Top)))*(((int)((*i).Bottom)) - ((int)((*i).Top))));
-			if (line > prev)
-				o++;
-			else if (line < prev)
-				o--;
-			prev = line;
-			if (beg == 0)
-			{
-				if (min > o && o < 0)
-					min = o;
-				if( abs(min - o) > 3 && o < 0)
-				  beg += line;
-			}
-			else
-				if (min1 > o && o < 0)
-					min1 = o;
 		}
 		imshow("OpenCV - DNN Face Detection", frame);
 		int k = waitKey(5);
@@ -77,16 +59,16 @@ int main(int argc, const char** argv)
 			destroyAllWindows();
 		}
 	}
-	if (abs(min-min1)>2)
+	if (dif>2)
 	{
 		cout << "Try again!" << endl;
 	}
 	else
 	{
 		cout << "Good Job! Next one!" << endl;
-		VideoCapture cap("C:\\My foulder\\test.mp4");
+		VideoCapture cap("C:/Users/temp2019/Desktop/Workout-check/execises/test_2.mp4");
 		Mat frame1;
-		int correct = 0; int left_prev = 0; int right_prev = 0; int top_prev = 0; int bottom_prev = 0;
+		int correct = 0; 
 		while (1)
 		{
 			cap >> frame1;
@@ -94,19 +76,12 @@ int main(int argc, const char** argv)
 				break;
 			double t = cv::getTickCount();
 			vector<DetectedObject> vect = det.detectFaceOpenCVDNN(net, frame1);
+			comparison ex = comparison();
+			correct== ex.Compare_ex_2(vect);
 			for (vector<DetectedObject>::iterator i = vect.begin(); i != vect.end(); ++i)
 			{
 				rectangle(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(0, 255, 0), 3);
 				line(frame1, Point((int)((*i).Left), (int)((*i).Top)), Point((int)((*i).Right), (int)((*i).Bottom)), cv::Scalar(255, 0, 0), 2);
-				/*cout << (int)((*i).Left) << "\t" << (int)((*i).Right) << "\t" << (int)((*i).Top) << "\t" << (int)((*i).Bottom) << endl;
-				comparison ex = comparison();*/
-				//Point center(((int)((*i).Left) + (int)((*i).Top)) / 2.0, ((int)((*i).Right) + (int)((*i).Bottom)) / 2.0);
-				//int right = ex.Compare((int)((*i).Left), (int)((*i).Top), (int)((*i).Right), (int)((*i).Bottom),center);
-
-				if (abs(left_prev - (int)((*i).Left)) < 10 && abs(right_prev - (int)((*i).Right)) < 10 || abs(top_prev - (int)((*i).Top)) > 0 && abs(bottom_prev - (int)((*i).Bottom)) > 0)
-					correct++;
-				else correct = 0;
-				left_prev = (int)((*i).Left); right_prev = (int)((*i).Right); top_prev = (int)((*i).Top); bottom_prev = (int)((*i).Bottom);
 			}
 			imshow("OpenCV - DNN Face Detection", frame1);
 			int k = waitKey(5);
@@ -122,4 +97,6 @@ int main(int argc, const char** argv)
 			cout << "Try again!" << endl;
 		}
 	}
+	waitKey();
+	return 0;
 }
